@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import jakarta.servlet.http.HttpServletRequest;
 import rs.ac.uns.ftn.friendster.model.entity.User;
 import rs.ac.uns.ftn.friendster.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 
 //** Komponenta koja moze da obavlja dodatnu proveru zahteva pre nego sto dospe na endpoint.
 // Moguce je pristupiti @PathVariable podacima sa URL-a zahteva na endpoint, poput {id}.

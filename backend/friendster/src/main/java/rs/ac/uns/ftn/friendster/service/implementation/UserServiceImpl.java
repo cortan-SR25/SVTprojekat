@@ -1,13 +1,13 @@
-package rs.ac.uns.ftn.svtvezbe07.service.implementation;
+package rs.ac.uns.ftn.friendster.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import rs.ac.uns.ftn.svtvezbe07.model.dto.UserDTO;
-import rs.ac.uns.ftn.svtvezbe07.model.entity.Roles;
-import rs.ac.uns.ftn.svtvezbe07.model.entity.User;
-import rs.ac.uns.ftn.svtvezbe07.repository.UserRepository;
-import rs.ac.uns.ftn.svtvezbe07.service.UserService;
+import rs.ac.uns.ftn.friendster.model.dto.UserDTO;
+import rs.ac.uns.ftn.friendster.model.entity.Roles;
+import rs.ac.uns.ftn.friendster.model.entity.User;
+import rs.ac.uns.ftn.friendster.repository.UserRepository;
+import rs.ac.uns.ftn.friendster.service.UserService;
 
 import java.util.List;
 import java.util.Optional;
