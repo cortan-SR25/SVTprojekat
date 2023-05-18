@@ -9,6 +9,7 @@ import rs.ac.uns.ftn.friendster.model.entity.User;
 import rs.ac.uns.ftn.friendster.repository.UserRepository;
 import rs.ac.uns.ftn.friendster.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +53,13 @@ public class UserServiceImpl implements UserService {
 
         User newUser = new User();
         newUser.setUsername(userDTO.getUsername());
+        newUser.setEmail(userDTO.getEmail());
         newUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        newUser.setFirstName(userDTO.getFirstName());
+        newUser.setLastName(userDTO.getLastName());
         newUser.setRole(Roles.USER);
+        newUser.setLastLogin(LocalDateTime.now());
+        newUser.setProfileImagePath(null);
         newUser = userRepository.save(newUser);
 
         return newUser;
@@ -63,4 +69,12 @@ public class UserServiceImpl implements UserService {
     public List<User> findAll() {
         return this.userRepository.findAll();
     }
+
+	@Override
+	public User setLastLogin(LocalDateTime time, String username) {
+		Optional<User> user = userRepository.findFirstByUsername(username);
+		user.get().setLastLogin(LocalDateTime.now());
+		userRepository.save(user.get());
+		return null;
+	}
 }

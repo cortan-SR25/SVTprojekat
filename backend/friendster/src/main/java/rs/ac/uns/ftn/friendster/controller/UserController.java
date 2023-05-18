@@ -23,6 +23,7 @@ import rs.ac.uns.ftn.friendster.security.TokenUtils;
 import rs.ac.uns.ftn.friendster.service.UserService;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,7 +51,7 @@ public class UserController {
 	 * this.authenticationManager = authenticationManager; this.userDetailsService =
 	 * userDetailsService; this.tokenUtils = tokenUtils; }
 	 */
-	@PostMapping("/signup")
+	@PostMapping("/register")
 	public ResponseEntity<UserDTO> create(@RequestBody @Validated UserDTO newUser) {
 
 		User createdUser = userService.createUser(newUser);
@@ -80,6 +81,8 @@ public class UserController {
 		UserDetails user = (UserDetails) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
 		int expiresIn = tokenUtils.getExpiredIn();
+		
+		userService.setLastLogin(LocalDateTime.now(), authenticationRequest.getUsername());
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));

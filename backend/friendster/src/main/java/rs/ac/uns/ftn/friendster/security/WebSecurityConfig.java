@@ -74,7 +74,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
 //                .antMatchers("/h2-console/**").permitAll()	// /h2-console/** ako se koristi H2 baza)
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users/signup").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/clubs/{id}/**").access("@webSecurity.checkClubId(authentication,request,#id)")
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
@@ -107,6 +107,7 @@ public class WebSecurityConfig {
         // Zahtevi koji se mecuju za web.ignoring().antMatchers() nemaju pristup SecurityContext-u
         // Dozvoljena POST metoda na ruti /api/users/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
         return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/users/login")
+        		.requestMatchers(HttpMethod.POST, "/api/users/register")
         		.requestMatchers(HttpMethod.GET, "/api/users/all")
 
                 // Ovim smo dozvolili pristup statickim resursima aplikacije
