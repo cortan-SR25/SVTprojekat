@@ -1,0 +1,40 @@
+<div class="card" elevation="5" fxFlex class="content">
+
+  <div class="title">
+      <h2>{{title}}</h2>
+  </div>
+
+  <div class="card-body">
+      <p *ngIf="notification" [class]="notification.msgType">{{notification.msgBody}}</p>
+      <form (ngSubmit)="onSubmit()" *ngIf="!submitted" [formGroup]="form">
+          <div class="card">
+              <label>Username: </label>
+              <input formControlName="username" required>
+            </div>
+          <div class="card">
+              <label>Password: </label>
+              <input formControlName="password" required type="password">
+            </div>
+          <div class="card">
+              <label>First Name: </label>
+              <input formControlName="firstName">
+            </div>
+          <div class="card">
+              <label>Last Name: </label>
+              <input formControlName="lastName">
+            </div>
+          <div class="card">
+              <label>Email: </label>
+              <input formControlName="email">
+            </div>
+          <button [disabled]="!form.valid" color="primary" mat-raised-button type="submit">Sign up</button>
+          <br>
+          <button color="primary" routerLink="/" >Go Back</button>
+      </form>
+      <br>
+      <!--<spinner *ngIf="submitted" mode="indeterminate"></spinner>-->
+      <br>
+      <hr>
+    </div>
+  
+</div>

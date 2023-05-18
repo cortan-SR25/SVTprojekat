@@ -27,7 +27,7 @@ export class ConfigService {
   }
   
   //TODO: 
-  private _signup_url = this._user_url + '/signup';
+  private _signup_url = this._user_url + '/register';
 
   get signup_url(): string {
     return this._signup_url;

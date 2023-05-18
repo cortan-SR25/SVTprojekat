@@ -33,11 +33,11 @@ export class AuthService {
       'password': user.password
     };
     return this.apiService.post(this.config.login_url, JSON.stringify(body), loginHeaders)
-      /*.pipe(map((res) => {
+      .pipe(map((res) => {
         console.log('Login success');
         this.access_token = res.accessToken;
         localStorage.setItem("jwt", res.accessToken)
-      }))*/;
+      }));
   }
 
   signup(user) {
@@ -46,9 +46,9 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     return this.apiService.post(this.config.signup_url, JSON.stringify(user), signupHeaders)
-      /*.pipe(map(() => {
+      .pipe(map(() => {
         console.log('Sign up success');
-      }))*/;
+      }));
   }
 
   logout() {
