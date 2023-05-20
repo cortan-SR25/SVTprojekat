@@ -28,8 +28,7 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ],
-            "es5BrowserSupport": true
+            ]
           },
           "configurations": {
             "production": {
@@ -135,5 +134,8 @@
       }
     }
   },
-  "defaultProject": "friendster"
+  "defaultProject": "friendster",
+  "cli": {
+    "analytics": false
+  }
 }
