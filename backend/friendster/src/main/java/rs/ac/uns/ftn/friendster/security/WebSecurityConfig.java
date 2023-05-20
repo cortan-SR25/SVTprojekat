@@ -76,6 +76,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/posts/all").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/clubs/{id}/**").access("@webSecurity.checkClubId(authentication,request,#id)")
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
@@ -93,7 +94,6 @@ public class WebSecurityConfig {
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
 
-
         // ulancavanje autentifikacije
         http.authenticationProvider(authenticationProvider());
 
@@ -109,10 +109,11 @@ public class WebSecurityConfig {
         return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/users/login")
         		.requestMatchers(HttpMethod.POST, "/api/users/register")
         		.requestMatchers(HttpMethod.GET, "/api/users/all")
+        		.requestMatchers(HttpMethod.GET, "/api/posts/all")
 
                 // Ovim smo dozvolili pristup statickim resursima aplikacije
-                .requestMatchers(HttpMethod.GET, "/", "/webjars/*", "/*.html", "favicon.ico",
-                        "/*/*.html", "/*/*.css", "/*/*.js");
+                .requestMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico",
+                "/**/*.html", "/**/*.css", "/**/*.js");
 
     }
 }
