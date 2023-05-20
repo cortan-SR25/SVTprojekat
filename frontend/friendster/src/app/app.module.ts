@@ -12,11 +12,16 @@ import { UserService } from './service/user.service';
 import { ConfigService } from './service/config.service';
 import { RegisterComponent } from './register/register.component';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptor/TokenInterceptor';
+import { EditUserComponent } from './edit-user/edit-user.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +31,11 @@ import { RegisterComponent } from './register/register.component';
     ReactiveFormsModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
     AuthService,
     ApiService,
     UserService,

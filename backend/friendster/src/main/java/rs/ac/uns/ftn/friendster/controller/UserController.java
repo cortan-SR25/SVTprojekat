@@ -7,13 +7,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import rs.ac.uns.ftn.friendster.model.dto.JwtAuthenticationRequest;
 import rs.ac.uns.ftn.friendster.model.dto.UserDTO;
@@ -24,6 +29,7 @@ import rs.ac.uns.ftn.friendster.service.UserService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -41,6 +47,9 @@ public class UserController {
 
 	@Autowired
 	TokenUtils tokenUtils;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	/*
 	 * Ili preporucen nacin: Constructor Dependency Injection
@@ -77,6 +86,7 @@ public class UserController {
 		// kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		Collection<? extends GrantedAuthority> coll = authentication.getAuthorities();
 		// Kreiraj token za tog korisnika
 		UserDetails user = (UserDetails) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
@@ -89,14 +99,20 @@ public class UserController {
 	}
 
 	@GetMapping("/all")
-	// @PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	public List<User> loadAll() {
 		return this.userService.findAll();
 	}
 
 	@GetMapping("/whoami")
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	public User user(Principal user) {
 		return this.userService.findByUsername(user.getName());
+	}
+	
+	@PostMapping("/edit")
+	public void editUser(Principal user, @RequestBody @Validated UserDTO userDTO) {
+		User foundUser = this.userService.findByUsername(user.getName());
+		foundUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		this.userService.edit(foundUser);
 	}
 }

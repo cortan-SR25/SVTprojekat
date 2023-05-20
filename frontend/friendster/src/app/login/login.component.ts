@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.authService.logout()
     this.route.params
       //.pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((params: DisplayMessage) => {
@@ -61,8 +62,8 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.form.value)
       .subscribe(data => {
-          this.userService.getMyInfo().subscribe();
-          this.router.navigate([this.returnUrl]);
+          this.userService.getMyInfo().subscribe(myData => {this.userService.currentUser = myData});
+          this.router.navigate(['/edit']);
         },
         error => {
           this.submitted = false;

@@ -21,6 +21,7 @@ export class AuthService {
   }
 
   private access_token = null;
+  private localStorageToken = localStorage.getItem("jwt")
 
   login(user) {
     const loginHeaders = new HttpHeaders({
@@ -54,15 +55,25 @@ export class AuthService {
   logout() {
     this.userService.currentUser = null;
     this.access_token = null;
+    localStorage.removeItem("jwt")
+    this.localStorageToken = undefined
     this.router.navigate(['/login']);
   }
 
   tokenIsPresent() {
+    this.tokenExists()
     return this.access_token != undefined && this.access_token != null;
   }
 
   getToken() {
+    this.tokenExists()
     return this.access_token;
+  }
+
+  tokenExists(){
+    if (this.localStorageToken != undefined && this.localStorageToken != null){
+      this.access_token = this.localStorageToken
+    }
   }
 
 }

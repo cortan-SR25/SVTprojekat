@@ -10,6 +10,12 @@ export class ConfigService {
 
   private _login_url = this._user_url + '/login';
 
+  private _edit_user_url = this._user_url + '/edit';
+
+  get edit_user_url(): string {
+    return this._edit_user_url;
+  }
+
   get login_url(): string {
     return this._login_url;
   }

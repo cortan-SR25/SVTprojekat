@@ -15,4 +15,6 @@ public interface UserService {
     List<User> findAll();
     
     User setLastLogin(LocalDateTime time, String username);
+
+	void edit(User user);
 }

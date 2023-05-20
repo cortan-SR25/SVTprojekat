@@ -77,4 +77,9 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user.get());
 		return null;
 	}
+	
+	@Override
+	public void edit(User user) {
+		this.userRepository.save(user);
+	}
 }

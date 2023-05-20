@@ -29,7 +29,6 @@ export class ApiService {
     const options = {
       headers: this.headers,
     };
-
     if (args) {
       options['params'] = this.serialize(args);
     }

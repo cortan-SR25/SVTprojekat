@@ -1,0 +1,20 @@
+<div *ngIf="this.user != undefined">
+<p>Your username: {{this.user.username}}</p>
+<br>
+<p>Your name: {{this.user.firstName}}</p>
+<br>
+<p>Your last name: {{this.user.lastName}}</p>
+<br>
+<p>Your email: {{this.user.email}}</p>
+<br>
+<p>Last time you logged in: {{this.user.lastLogin}}</p>
+<br>
+</div>
+<form #loginForm="ngForm" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <br>
+    <p>Change your password</p>
+    <br>
+    <input id=password formControlName="password" placeholder="type new password" required type="password">
+    <button [disabled]="!loginForm.form.valid" color="primary" mat-raised-button
+              type="submit">Change</button>
+</form>
