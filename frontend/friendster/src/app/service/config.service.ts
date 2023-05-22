@@ -7,10 +7,17 @@ export class ConfigService {
 
   private _api_url = 'http://localhost:8080/api';
   private _user_url = this._api_url + '/users';
+  private _posts_url = this._api_url + '/posts';
 
   private _login_url = this._user_url + '/login';
 
   private _edit_user_url = this._user_url + '/edit';
+
+  private _all_posts_url = this._posts_url + '/all';
+
+  get all_posts_url(): string {
+    return this._all_posts_url;
+  }
 
   get edit_user_url(): string {
     return this._edit_user_url;

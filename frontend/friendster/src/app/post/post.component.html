@@ -1,0 +1,10 @@
+<div *ngIf="this.user != undefined">
+<div *ngFor="let post of this.posts">
+    <p>{{post.poster.username}}</p>
+    <br>
+    <p>{{post.content}}</p>
+    <br>
+    <p>Posted at: {{post.creationDate}}</p>
+    <hr>
+</div>
+    </div>

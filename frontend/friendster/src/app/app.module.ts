@@ -15,13 +15,15 @@ import { RegisterComponent } from './register/register.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    EditUserComponent
+    EditUserComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

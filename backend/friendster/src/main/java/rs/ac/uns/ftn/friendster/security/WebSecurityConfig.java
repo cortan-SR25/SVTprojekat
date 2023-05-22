@@ -76,7 +76,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/users/all").hasAuthority("ROLE_ADMIN")
-                .requestMatchers(HttpMethod.GET, "/api/posts/all").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/posts/all").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/users/whoami").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users/edit").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
@@ -110,7 +110,6 @@ public class WebSecurityConfig {
         return (web) -> web.ignoring().requestMatchers(HttpMethod.POST, "/api/users/login")
         		.requestMatchers(HttpMethod.POST, "/api/users/register")
         		.requestMatchers(HttpMethod.GET, "/api/users/all")
-        		.requestMatchers(HttpMethod.GET, "/api/posts/all")
 
                 // Ovim smo dozvolili pristup statickim resursima aplikacije
                 .requestMatchers(HttpMethod.GET, "/", "/webjars/*", "/*.html", "favicon.ico",

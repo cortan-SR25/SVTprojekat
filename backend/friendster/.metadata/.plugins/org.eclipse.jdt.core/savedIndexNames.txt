@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\TehnoCentar\Desktop\SVTprojekat\SVTprojekat\backend\friendster\.metadata\.plugins\org.eclipse.jdt.core
+3638478659.index
+1865797976.index
+702409979.index
