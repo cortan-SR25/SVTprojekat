@@ -1,10 +1,20 @@
 <div *ngIf="this.user != undefined">
 <div *ngFor="let post of this.posts">
-    <p>{{post.poster.username}}</p>
+    <p>{{post.poster}}</p>
     <br>
     <p>{{post.content}}</p>
     <br>
     <p>Posted at: {{post.creationDate}}</p>
+    <br>
+    <button class="btn btn-link">{{this.post.numOfLikes}}</button>
+    <button *ngIf="this.post.thisUserLiked" (click)="unlike(this.post.id)" style="background-color: #008BD5; margin-right: 10px;">LIKED</button>
+    <button *ngIf="!this.post.thisUserLiked" (click)="like(this.post.id)" style="background-color: #3FBCFF; margin-right: 10px">LIKE</button>
+    <button class="btn btn-link">{{this.post.numOfHearts}}</button>
+    <button *ngIf="this.post.thisUserHearted" (click)="unheart(this.post.id)" style="background-color: #F400CF; margin-right: 10px;">HEARTED</button>
+    <button *ngIf="!this.post.thisUserHearted" (click)="heart(this.post.id)" style="background-color: #FF7BEB; margin-right: 10px">HEART</button>
+    <button class="btn btn-link">{{this.post.numOfDislikes}}</button>
+    <button *ngIf="this.post.thisUserDisliked" (click)="undislike(this.post.id)" style="background-color: #FF1C1C; margin-right: 10px;">DISLIKED</button>
+    <button *ngIf="!this.post.thisUserDisliked" (click)="dislike(this.post.id)" style="background-color: #FF5A5A; margin-right: 10px">DISLIKE</button>
     <hr>
 </div>
     </div>
