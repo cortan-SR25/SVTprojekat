@@ -50,16 +50,6 @@ public class UserController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
-
-	/*
-	 * Ili preporucen nacin: Constructor Dependency Injection
-	 * 
-	 * @Autowired public UserController(UserServiceImpl userService,
-	 * AuthenticationManager authenticationManager, UserDetailsService
-	 * userDetailsService, TokenUtils tokenUtils){ this.userService = userService;
-	 * this.authenticationManager = authenticationManager; this.userDetailsService =
-	 * userDetailsService; this.tokenUtils = tokenUtils; }
-	 */
 	@PostMapping("/register")
 	public ResponseEntity<UserDTO> create(@RequestBody @Validated UserDTO newUser) {
 
@@ -77,24 +67,17 @@ public class UserController {
 	public ResponseEntity<UserTokenState> createAuthenticationToken(
 			@RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
 
-		// Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
-		// AuthenticationException
 		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
 				authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
-		// Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
-		// kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		Collection<? extends GrantedAuthority> coll = authentication.getAuthorities();
-		// Kreiraj token za tog korisnika
 		UserDetails user = (UserDetails) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user);
 		int expiresIn = tokenUtils.getExpiredIn();
 		
 		userService.setLastLogin(LocalDateTime.now(), authenticationRequest.getUsername());
 
-		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenState(jwt, expiresIn));
 	}
 
