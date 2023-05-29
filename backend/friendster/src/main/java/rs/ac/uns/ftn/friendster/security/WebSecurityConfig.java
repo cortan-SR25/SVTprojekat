@@ -71,6 +71,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/posts/all").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/users/whoami").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/users/edit").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/reactions/create").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/reactions/delete").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 
                 .anyRequest().authenticated().and()
                 .cors().and()

@@ -38,11 +38,11 @@ public class Reaction {
 	private LocalDateTime timestamp;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(nullable = true, name = "reactor_id", referencedColumnName = "id")
+	@JoinColumn(nullable = false, name = "reactor_id", referencedColumnName = "id")
 	private User reactor;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(nullable = true, name = "content_id", referencedColumnName = "id")
+	@JoinColumn(nullable = false, name = "content_id", referencedColumnName = "id")
 	private Post post;
 
 	public Long getId() {

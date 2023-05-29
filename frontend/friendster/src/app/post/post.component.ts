@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { UserService } from '../service/user.service';
 import { Post } from '../model/post';
+import { ReactionService } from '../service/reaction.service';
 
 @Component({
   selector: 'app-post',
@@ -16,6 +17,7 @@ export class PostComponent implements OnInit {
 
   constructor(private userService: UserService,
     private authService: AuthService,
+    private reactionService: ReactionService,
     private router: Router,
     private route: ActivatedRoute){}
 
@@ -90,6 +92,9 @@ export class PostComponent implements OnInit {
        }
       this.posts[i].thisUserLiked = true
       this.posts[i].numOfLikes = this.posts[i].numOfLikes + 1
+      this.reactionService.create("LIKE", this.user.id, postId).subscribe(data => {
+        
+      })
       }
     }
   }
@@ -100,6 +105,9 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserLiked = false
       this.posts[i].numOfLikes = this.posts[i].numOfLikes - 1
+      this.reactionService.delete("LIKE", this.user.id, postId).subscribe(data => {
+
+      })
       }
     }
   }
@@ -119,6 +127,9 @@ export class PostComponent implements OnInit {
        }
       this.posts[i].thisUserHearted = true
       this.posts[i].numOfHearts = this.posts[i].numOfHearts + 1
+      this.reactionService.create("HEART", this.user.id, postId).subscribe(data => {
+        
+      })
       }
     }
   }
@@ -129,6 +140,9 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserHearted = false
       this.posts[i].numOfHearts = this.posts[i].numOfHearts - 1
+      this.reactionService.delete("HEART", this.user.id, postId).subscribe(data => {
+        
+      })
       }
     }
   }
@@ -148,6 +162,9 @@ export class PostComponent implements OnInit {
        }
       this.posts[i].thisUserDisliked = true
       this.posts[i].numOfDislikes = this.posts[i].numOfDislikes + 1
+      this.reactionService.create("DISLIKE", this.user.id, postId).subscribe(data => {
+        
+      })
       }
     }
   }
@@ -158,6 +175,9 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserDisliked = false
       this.posts[i].numOfDislikes = this.posts[i].numOfDislikes - 1
+      this.reactionService.delete("DISLIKE", this.user.id, postId).subscribe(data => {
+        
+      })
       }
     }
   }

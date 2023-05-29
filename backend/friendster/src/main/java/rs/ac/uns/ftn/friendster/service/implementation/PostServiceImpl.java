@@ -36,8 +36,8 @@ public class PostServiceImpl implements PostService {
 		newPost.setContent(post.getContent());
 		newPost.setPoster(poster);
 		newPost.setCreationDate(LocalDateTime.now());
-		newPost.setGroup(null);
-		return postRepository.save(null);
+		//newPost.setGroup(null);
+		return postRepository.save(newPost);
 	}
 
 	@Override
