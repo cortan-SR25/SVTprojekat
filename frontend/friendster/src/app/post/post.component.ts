@@ -14,6 +14,7 @@ export class PostComponent implements OnInit {
 
   public posts: Post[]
   public user
+  public postToEdit = "0"
 
   constructor(private userService: UserService,
     private authService: AuthService,
@@ -180,5 +181,29 @@ export class PostComponent implements OnInit {
       })
       }
     }
+  }
+
+  public writePost(postId: string, content: string){
+
+    this.postToEdit = postId
+
+      document.getElementById("backdrop").style.display = "block"
+      document.getElementById("postModal").style.display = "block"
+      document.getElementById("postModal").classList.add("show")
+
+      if (this.postToEdit != "0"){
+        document.getElementById("postcontent").innerText = content
+        document.getElementById("postbtn").innerHTML = "Save changes"
+      } else {
+        document.getElementById("postbtn").innerHTML = "Post"
+        
+      }
+  
+  }
+
+  public closePostModal(){
+      document.getElementById("backdrop").style.display = "none"
+      document.getElementById("postModal").style.display = "none"
+      document.getElementById("postModal").classList.remove("show")
   }
 }

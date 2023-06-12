@@ -1,4 +1,8 @@
 <div *ngIf="this.user != undefined">
+    <div style="margin: 10px;">
+        <button style="background-color: #008BD5; color: white;" (click)="writePost('0', '')">write post</button>
+    </div>
+    <hr>
 <div *ngFor="let post of this.posts">
     <p>{{post.poster}}</p>
     <br>
@@ -15,6 +19,31 @@
     <button class="btn btn-link">{{this.post.numOfDislikes}}</button>
     <button *ngIf="this.post.thisUserDisliked" (click)="undislike(this.post.id)" style="background-color: #FF1C1C; margin-right: 10px;">DISLIKED</button>
     <button *ngIf="!this.post.thisUserDisliked" (click)="dislike(this.post.id)" style="background-color: #FF5A5A; margin-right: 10px">DISLIKE</button>
-    <hr>
-</div>
+    <div *ngIf="this.post.poster == this.user.username">
+        <button style="margin:8px;" (click)="writePost(this.post.id, this.post.content)">edit</button>
+        <button style="margin-top:8px;">delete</button>
     </div>
+    <hr>
+    </div>
+</div>
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postModalLabel">Post content</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closePostModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="postcontent" style="width: 100%;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closePostModal()">Close</button>
+                <button type="button" id="postbtn" class="btn btn-primary">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
