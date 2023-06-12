@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import rs.ac.uns.ftn.friendster.model.dto.PostDTO;
@@ -32,7 +33,7 @@ public class PostServiceImpl implements PostService {
 	public Post createPost(PostDTO post) {
 		// TODO Auto-generated method stub
 		Post newPost = new Post();
-		User poster = userRepository.findById(post.getPosterId()).get();
+		User poster = userRepository.findFirstByUsername(post.getPoster()).get();
 		newPost.setContent(post.getContent());
 		newPost.setPoster(poster);
 		newPost.setCreationDate(LocalDateTime.now());
@@ -49,7 +50,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> findAll() {
 		// TODO Auto-generated method stub
-		return postRepository.findAll();
+		return postRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 	}
 	
 	@Override

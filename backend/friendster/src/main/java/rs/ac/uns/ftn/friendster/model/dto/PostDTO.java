@@ -18,19 +18,19 @@ public class PostDTO {
     private String content;
     
     @NotBlank
-    private Long posterId;
+    private String poster;
 
-	public PostDTO(Long id, @NotBlank String content, @NotBlank Long posterId) {
+	public PostDTO(Long id, @NotBlank String content, @NotBlank String poster) {
 		super();
 		this.id = id;
 		this.content = content;
-		this.posterId = posterId;
+		this.poster = poster;
 	}
 
 	public PostDTO(Post post) {
 		this.id = post.getId();
 		this.content = post.getContent();
-		this.posterId = post.getPoster().getId();
+		this.poster = post.getPoster().getUsername();
 	}
 
 	public Long getId() {
@@ -49,12 +49,12 @@ public class PostDTO {
 		this.content = content;
 	}
 
-	public Long getPosterId() {
-		return posterId;
+	public String getPoster() {
+		return poster;
 	}
 
-	public void setPosterId(Long posterId) {
-		this.posterId = posterId;
+	public void setPoster(String poster) {
+		this.poster = poster;
 	}
     
     

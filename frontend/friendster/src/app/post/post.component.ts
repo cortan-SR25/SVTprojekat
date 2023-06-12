@@ -4,6 +4,7 @@ import { AuthService } from '../service/auth.service';
 import { UserService } from '../service/user.service';
 import { Post } from '../model/post';
 import { ReactionService } from '../service/reaction.service';
+import { PostService } from '../service/post.service';
 
 @Component({
   selector: 'app-post',
@@ -14,13 +15,15 @@ export class PostComponent implements OnInit {
 
   public posts: Post[]
   public user
-  public postToEdit = "0"
+  public postToEdit: Post = new Post()
+  public postContent = ""
 
   constructor(private userService: UserService,
     private authService: AuthService,
     private reactionService: ReactionService,
     private router: Router,
-    private route: ActivatedRoute){}
+    private route: ActivatedRoute,
+    private postService: PostService){}
 
   ngOnInit(): void {
     this.posts = []
@@ -32,6 +35,14 @@ export class PostComponent implements OnInit {
     this.userService.getMyInfo().subscribe(
       data => {this.user = data}
     );
+
+    this.getPosts();
+
+  }
+
+  public getPosts(){
+
+    this.posts = []
 
     this.userService.getPosts().subscribe(
       data => {
@@ -75,7 +86,6 @@ export class PostComponent implements OnInit {
       }
     }
     );
-
   }
 
   public like(postId: string){
@@ -183,20 +193,19 @@ export class PostComponent implements OnInit {
     }
   }
 
-  public writePost(postId: string, content: string){
-
-    this.postToEdit = postId
+  public writePost(post: Post){
 
       document.getElementById("backdrop").style.display = "block"
       document.getElementById("postModal").style.display = "block"
       document.getElementById("postModal").classList.add("show")
 
-      if (this.postToEdit != "0"){
-        document.getElementById("postcontent").innerText = content
+      if (post != null){
+        this.postContent = post.content
+        document.getElementById("postcontent").innerText = post.content
         document.getElementById("postbtn").innerHTML = "Save changes"
+        this.postToEdit = post
       } else {
         document.getElementById("postbtn").innerHTML = "Post"
-        
       }
   
   }
@@ -205,5 +214,43 @@ export class PostComponent implements OnInit {
       document.getElementById("backdrop").style.display = "none"
       document.getElementById("postModal").style.display = "none"
       document.getElementById("postModal").classList.remove("show")
+
+      this.postToEdit = new Post()
+      this.postContent = ""
+  }
+
+  public createPost(){
+    if (this.postToEdit.id != "" && this.postToEdit.id != null && this.postToEdit.id != undefined){
+      this.editPost(this.postToEdit)
+    } else {
+      var post = new Post();
+      post.content = this.postContent
+      post.poster = this.user.username
+    this.postService.create(post).subscribe(
+      data => {
+        this.getPosts()
+        this.closePostModal()}
+    );
+    }
+  }
+
+  public editPost(post: Post){
+    var index = this.posts.indexOf(post)
+    post.content = this.postContent
+    this.posts[index].content = post.content
+    this.postService.edit(post).subscribe(
+      data => {}
+    )
+    this.closePostModal()
+  }
+
+  public deletePost(post: Post){
+    this.postService.delete(post).subscribe(
+      data => {}
+    );
+    var index = this.posts.indexOf(post)
+    this.posts.splice(index, 1)
+
+    this.closePostModal()
   }
 }

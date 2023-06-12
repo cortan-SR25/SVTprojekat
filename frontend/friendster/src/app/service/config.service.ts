@@ -16,6 +16,12 @@ export class ConfigService {
 
   private _all_posts_url = this._posts_url + '/all';
 
+  private _create_post_url = this._posts_url + '/create';
+
+  private _edit_post_url = this._posts_url + '/edit';
+
+  private _delete_post_url = this._posts_url + '/delete';
+
   private _create_reaction_url = this._reactions_url + '/create';
 
   private _delete_reaction_url = this._reactions_url + '/delete';
@@ -57,6 +63,18 @@ export class ConfigService {
 
   get delete_reaction_url(): string{
     return this._delete_reaction_url
+  }
+
+  get create_post_url(): string{
+    return this._create_post_url
+  }
+
+  get edit_post_url(): string{
+    return this._edit_post_url
+  }
+
+  get delete_post_url(): string{
+    return this._delete_post_url
   }
 
 }

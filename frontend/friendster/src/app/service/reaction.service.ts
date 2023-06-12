@@ -28,7 +28,6 @@ export class ReactionService {
         });
         return this.apiService.post(this.config.create_reaction_url, JSON.stringify(reaction), reactionHeaders)
           .pipe(map(() => {
-            console.log(reaction)
           }));
       }
 
@@ -45,7 +44,6 @@ export class ReactionService {
         });
         return this.apiService.post(this.config.delete_reaction_url, JSON.stringify(reaction), reactionHeaders)
           .pipe(map(() => {
-            console.log(reaction)
           }));
       }
 

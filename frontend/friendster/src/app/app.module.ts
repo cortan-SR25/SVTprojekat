@@ -17,6 +17,7 @@ import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { PostComponent } from './post/post.component';
 import { ReactionService } from './service/reaction.service';
+import { PostService } from './service/post.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ReactionService } from './service/reaction.service';
     ApiService,
     UserService,
     ConfigService,
-    ReactionService
+    ReactionService,
+    PostService
   ],
   bootstrap: [AppComponent]
 })

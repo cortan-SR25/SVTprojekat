@@ -1,6 +1,6 @@
 <div *ngIf="this.user != undefined">
     <div style="margin: 10px;">
-        <button style="background-color: #008BD5; color: white;" (click)="writePost('0', '')">write post</button>
+        <button style="background-color: #008BD5; color: white;" (click)="writePost(null)">write post</button>
     </div>
     <hr>
 <div *ngFor="let post of this.posts">
@@ -20,8 +20,8 @@
     <button *ngIf="this.post.thisUserDisliked" (click)="undislike(this.post.id)" style="background-color: #FF1C1C; margin-right: 10px;">DISLIKED</button>
     <button *ngIf="!this.post.thisUserDisliked" (click)="dislike(this.post.id)" style="background-color: #FF5A5A; margin-right: 10px">DISLIKE</button>
     <div *ngIf="this.post.poster == this.user.username">
-        <button style="margin:8px;" (click)="writePost(this.post.id, this.post.content)">edit</button>
-        <button style="margin-top:8px;">delete</button>
+        <button style="margin:8px;" (click)="writePost(this.post)">edit</button>
+        <button style="margin-top:8px;" (click)="deletePost(this.post)">delete</button>
     </div>
     <hr>
     </div>
@@ -37,11 +37,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea id="postcontent" style="width: 100%;"></textarea>
+                <textarea id="postcontent" [(ngModel)]="postContent" style="width: 100%;"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closePostModal()">Close</button>
-                <button type="button" id="postbtn" class="btn btn-primary">Post</button>
+                <button type="button" id="postbtn" (click)="createPost()" class="btn btn-primary">Post</button>
             </div>
         </div>
     </div>

@@ -49,24 +49,21 @@ public class PostController {
 	}
 	
 	@PostMapping("/create")
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	public ResponseEntity<PostDTO> create(@RequestBody @Validated PostDTO newPost){
+	public List<Post> create(@RequestBody @Validated PostDTO newPost){
 		
 		Post createdPost = postService.createPost(newPost);
 
 		if (createdPost == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+			return null;
 		}
-		PostDTO postDTO = new PostDTO(createdPost);
+		//PostDTO postDTO = new PostDTO(createdPost);
 
-		return new ResponseEntity<>(postDTO, HttpStatus.CREATED);
+		return this.postService.findAll();
 	}
 	
-	@PostMapping("/edit/{id}")
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	public ResponseEntity<PostDTO> GetPostByPosterId(@PathVariable Long id, @RequestBody @Validated PostDTO editedPost) {
+	@PostMapping("/edit")
+	public ResponseEntity<PostDTO> GetPostByPosterId(@RequestBody @Validated PostDTO editedPost) {
 		
-		if (editedPost.getPosterId() == id) {
 		Post post = postService.editPost(editedPost, editedPost.getId());
 		
 		if (post == null) {
@@ -75,24 +72,15 @@ public class PostController {
 		PostDTO postDTO = new PostDTO(post);
 
 		return new ResponseEntity<>(postDTO, HttpStatus.CREATED);
-	} else {
-		return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-	}
 	}
 	
-	@PostMapping("/delete/{id}")
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-	public ResponseEntity<PostDTO> deletePost(@PathVariable Long id, @RequestBody @Validated PostDTO postToDelete) {
+	@PostMapping("/delete")
+	public ResponseEntity<PostDTO> deletePost(@RequestBody @Validated PostDTO postToDelete) {
 		
-		if (postToDelete.getPosterId() == id) {
+		postService.deletePost(postToDelete.getId());
 			
-			postService.deletePost(postToDelete.getId());
+	    return new ResponseEntity<>(postToDelete, HttpStatus.ACCEPTED);
 			
-			return new ResponseEntity<>(postToDelete, HttpStatus.ACCEPTED);
-			
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
 	}
 	
 }
