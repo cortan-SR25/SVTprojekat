@@ -5,6 +5,8 @@ import { UserService } from '../service/user.service';
 import { Post } from '../model/post';
 import { ReactionService } from '../service/reaction.service';
 import { PostService } from '../service/post.service';
+import { User } from '../model/user';
+import { Reaction } from '../model/reaction';
 
 @Component({
   selector: 'app-post',
@@ -17,6 +19,7 @@ export class PostComponent implements OnInit {
   public user
   public postToEdit: Post = new Post()
   public postContent = ""
+  public reactions = []
 
   constructor(private userService: UserService,
     private authService: AuthService,
@@ -50,7 +53,33 @@ export class PostComponent implements OnInit {
           var post = new Post()
           post.id = dataPost.id
           post.content = dataPost.content
-          post.creationDate = dataPost.creationDate
+          var dateString = JSON.stringify(dataPost.creationDate)
+          var dateString1 = dateString.replace("[", "")
+          var dateString2 = dateString1.replace("]", "")
+          var date = dateString2.split(",", 6)
+          var year = date[0];
+          var month = date[1];
+          var day = date[2];
+          var hour = date[3];
+          var minute = date[4];
+          var second = date[5]; 
+          if (day.length == 1){
+            day = "0" + day
+          }
+          if (month.length == 1){
+            month = "0" + month
+          }
+          if (hour.length == 1){
+            hour = "0" + hour
+          }
+          if (minute.length == 1){
+            minute = "0" + minute
+          }
+          if (second.length == 1){
+            second = "0" + second
+          }
+          post.creationDate = day + "/" + month + "/" + year
+                              + " " + hour + ":" + minute + ":" + second
           post.groupId = null
           post.poster = dataPost.poster.username
 
@@ -67,6 +96,10 @@ export class PostComponent implements OnInit {
           post.numOfLikes = numOfLikes.length
           post.numOfDislikes = numOfDislikes.length
           post.numOfHearts = numOfHearts.length
+
+          post.likes = numOfLikes
+          post.hearts = numOfHearts
+          post.dislikes = numOfDislikes
 
           if (thisUserLiked != undefined && thisUserLiked != null){
             post.thisUserLiked = true
@@ -95,16 +128,29 @@ export class PostComponent implements OnInit {
        if (this.posts[i].thisUserHearted) {
         this.posts[i].thisUserHearted = false
         this.posts[i].numOfHearts = this.posts[i].numOfHearts - 1
+        var heart = this.posts[i].hearts.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].hearts.indexOf(heart)
+        this.posts[i].hearts.splice(index, 1)
        }
 
        if (this.posts[i].thisUserDisliked) {
         this.posts[i].thisUserDisliked = false
         this.posts[i].numOfDislikes = this.posts[i].numOfDislikes - 1
+        var dislike = this.posts[i].dislikes.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].dislikes.indexOf(dislike)
+        this.posts[i].dislikes.splice(index, 1)
        }
       this.posts[i].thisUserLiked = true
       this.posts[i].numOfLikes = this.posts[i].numOfLikes + 1
+      var liker = new User()
+      liker.id = this.user.id
+      liker.username = this.user.username
+      var like = new Reaction()
+      like.type = "LIKE"
+      like.reactor = liker
+      this.posts[i].likes.push(like)
       this.reactionService.create("LIKE", this.user.id, postId).subscribe(data => {
-        
+      
       })
       }
     }
@@ -116,6 +162,9 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserLiked = false
       this.posts[i].numOfLikes = this.posts[i].numOfLikes - 1
+      var like = this.posts[i].likes.find(x => x.reactor.id == this.user.id)
+      var index = this.posts[i].likes.indexOf(like)
+      this.posts[i].likes.splice(index, 1)
       this.reactionService.delete("LIKE", this.user.id, postId).subscribe(data => {
 
       })
@@ -130,14 +179,27 @@ export class PostComponent implements OnInit {
        if (this.posts[i].thisUserLiked) {
         this.posts[i].thisUserLiked = false
         this.posts[i].numOfLikes = this.posts[i].numOfLikes - 1
+        var like = this.posts[i].likes.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].likes.indexOf(like)
+        this.posts[i].likes.splice(index, 1)
        }
 
        if (this.posts[i].thisUserDisliked) {
         this.posts[i].thisUserDisliked = false
         this.posts[i].numOfDislikes = this.posts[i].numOfDislikes - 1
+        var dislike = this.posts[i].dislikes.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].dislikes.indexOf(dislike)
+        this.posts[i].dislikes.splice(index, 1)
        }
       this.posts[i].thisUserHearted = true
       this.posts[i].numOfHearts = this.posts[i].numOfHearts + 1
+      var hearter = new User()
+      hearter.id = this.user.id
+      hearter.username = this.user.username
+      var heart = new Reaction()
+      heart.type = "HEART"
+      heart.reactor = hearter
+      this.posts[i].hearts.push(heart)
       this.reactionService.create("HEART", this.user.id, postId).subscribe(data => {
         
       })
@@ -151,6 +213,9 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserHearted = false
       this.posts[i].numOfHearts = this.posts[i].numOfHearts - 1
+      var heart = this.posts[i].hearts.find(x => x.reactor.id == this.user.id)
+      var index = this.posts[i].hearts.indexOf(heart)
+      this.posts[i].hearts.splice(index, 1)
       this.reactionService.delete("HEART", this.user.id, postId).subscribe(data => {
         
       })
@@ -165,14 +230,27 @@ export class PostComponent implements OnInit {
        if (this.posts[i].thisUserLiked) {
         this.posts[i].thisUserLiked = false
         this.posts[i].numOfLikes = this.posts[i].numOfLikes - 1
+        var like = this.posts[i].likes.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].likes.indexOf(like)
+        this.posts[i].likes.splice(index, 1)
        }
 
        if (this.posts[i].thisUserHearted) {
         this.posts[i].thisUserHearted = false
         this.posts[i].numOfHearts = this.posts[i].numOfHearts - 1
+        var heart = this.posts[i].hearts.find(x => x.reactor.id == this.user.id)
+        var index = this.posts[i].hearts.indexOf(heart)
+        this.posts[i].hearts.splice(index, 1)
        }
       this.posts[i].thisUserDisliked = true
       this.posts[i].numOfDislikes = this.posts[i].numOfDislikes + 1
+      var disliker = new User()
+      disliker.id = this.user.id
+      disliker.username = this.user.username
+      var dislike = new Reaction()
+      dislike.type = "DISLIKE"
+      dislike.reactor = disliker
+      this.posts[i].dislikes.push(dislike)
       this.reactionService.create("DISLIKE", this.user.id, postId).subscribe(data => {
         
       })
@@ -186,6 +264,13 @@ export class PostComponent implements OnInit {
       if (this.posts[i].id == postId){
       this.posts[i].thisUserDisliked = false
       this.posts[i].numOfDislikes = this.posts[i].numOfDislikes - 1
+      var dislike = this.posts[i].dislikes.find(x => x.reactor.id == this.user.id)
+      console.log(dislike)
+      var index = this.posts[i].dislikes.indexOf(dislike)
+      console.log(index)
+      this.posts[i].dislikes.splice(index, 1)
+
+      this.posts[i].dislikes
       this.reactionService.delete("DISLIKE", this.user.id, postId).subscribe(data => {
         
       })
@@ -252,5 +337,31 @@ export class PostComponent implements OnInit {
     this.posts.splice(index, 1)
 
     this.closePostModal()
+  }
+
+  public checkReactions(selectedReactions: []){
+    this.reactions = selectedReactions;
+    if (selectedReactions.length == 0){
+      return
+    }
+
+    if (this.reactions[0].type == "LIKE"){
+      document.getElementById("reactionModalLabel").innerHTML = "Likes"
+    } else if (this.reactions[0].type == "HEART"){
+      document.getElementById("reactionModalLabel").innerHTML = "Hearts"
+    } else {
+      document.getElementById("reactionModalLabel").innerHTML = "Dislikes"
+    }
+
+    document.getElementById("backdrop").style.display = "block"
+    document.getElementById("reactionModal").style.display = "block"
+    document.getElementById("reactionModal").classList.add("show")
+  }
+
+  public closeReactionModal(){
+    document.getElementById("backdrop").style.display = "none"
+    document.getElementById("reactionModal").style.display = "none"
+    document.getElementById("reactionModal").classList.remove("show")
+    this.reactions = []
   }
 }

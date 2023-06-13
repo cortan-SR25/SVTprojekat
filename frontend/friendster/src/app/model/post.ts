@@ -1,3 +1,5 @@
+import { Reaction } from "./reaction";
+
 export class Post {
     id: string;
     content: string;
@@ -10,4 +12,7 @@ export class Post {
     numOfLikes: number;
     numOfHearts: number;
     numOfDislikes: number;
+    likes: Reaction[];
+    hearts: Reaction[];
+    dislikes: Reaction[];
 }

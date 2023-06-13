@@ -10,13 +10,13 @@
     <br>
     <p>Posted at: {{post.creationDate}}</p>
     <br>
-    <button class="btn btn-link">{{this.post.numOfLikes}}</button>
+    <button class="btn btn-link" (click)="checkReactions(this.post.likes)">{{this.post.numOfLikes}}</button>
     <button *ngIf="this.post.thisUserLiked" (click)="unlike(this.post.id)" style="background-color: #008BD5; margin-right: 10px;">LIKED</button>
     <button *ngIf="!this.post.thisUserLiked" (click)="like(this.post.id)" style="background-color: #3FBCFF; margin-right: 10px">LIKE</button>
-    <button class="btn btn-link">{{this.post.numOfHearts}}</button>
+    <button class="btn btn-link" (click)="checkReactions(this.post.hearts)">{{this.post.numOfHearts}}</button>
     <button *ngIf="this.post.thisUserHearted" (click)="unheart(this.post.id)" style="background-color: #F400CF; margin-right: 10px;">HEARTED</button>
     <button *ngIf="!this.post.thisUserHearted" (click)="heart(this.post.id)" style="background-color: #FF7BEB; margin-right: 10px">HEART</button>
-    <button class="btn btn-link">{{this.post.numOfDislikes}}</button>
+    <button class="btn btn-link" (click)="checkReactions(this.post.dislikes)">{{this.post.numOfDislikes}}</button>
     <button *ngIf="this.post.thisUserDisliked" (click)="undislike(this.post.id)" style="background-color: #FF1C1C; margin-right: 10px;">DISLIKED</button>
     <button *ngIf="!this.post.thisUserDisliked" (click)="dislike(this.post.id)" style="background-color: #FF5A5A; margin-right: 10px">DISLIKE</button>
     <div *ngIf="this.post.poster == this.user.username">
@@ -42,6 +42,28 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" (click)="closePostModal()">Close</button>
                 <button type="button" id="postbtn" (click)="createPost()" class="btn btn-primary">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
+<div class="modal fade" id="reactionModal" tabindex="-1" aria-labelledby="reactionModalLabel" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reactionModalLabel">Likes</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeReactionModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngFor="let reaction of reactions">
+                    <p>{{this.reaction.reactor.username}}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeReactionModal()">Close</button>
             </div>
         </div>
     </div>
