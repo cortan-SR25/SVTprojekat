@@ -9,6 +9,7 @@ export class ConfigService {
   private _user_url = this._api_url + '/users';
   private _posts_url = this._api_url + '/posts';
   private _reactions_url = this._api_url + '/reactions';
+  private _groups_url = this._api_url + '/groups'
 
   private _login_url = this._user_url + '/login';
 
