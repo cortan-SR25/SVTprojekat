@@ -2,8 +2,14 @@ package rs.ac.uns.ftn.friendster.model.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import rs.ac.uns.ftn.friendster.model.entity.Group;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class GroupDTO {
 	
 	private Long id;

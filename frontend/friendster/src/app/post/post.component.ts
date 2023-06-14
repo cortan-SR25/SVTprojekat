@@ -47,7 +47,7 @@ export class PostComponent implements OnInit {
 
     this.posts = []
 
-    this.userService.getPosts().subscribe(
+    this.postService.getPosts().subscribe(
       data => {
         for (let dataPost of data) {
           var post = new Post()
@@ -330,13 +330,16 @@ export class PostComponent implements OnInit {
   }
 
   public deletePost(post: Post){
+
+    let isExecuted = confirm("Are you sure you want to delete this group?");
+
+    if (isExecuted){
     this.postService.delete(post).subscribe(
       data => {}
     );
     var index = this.posts.indexOf(post)
     this.posts.splice(index, 1)
-
-    this.closePostModal()
+    }
   }
 
   public checkReactions(selectedReactions: []){

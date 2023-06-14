@@ -47,9 +47,4 @@ export class UserService {
       }));
   }
 
-  // TODO: create post service and move this method there
-  getPosts(){
-    return this.apiService.get(this.config.all_posts_url);
-  }
-
 }

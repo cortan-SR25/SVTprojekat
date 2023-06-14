@@ -18,6 +18,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 import { PostComponent } from './post/post.component';
 import { ReactionService } from './service/reaction.service';
 import { PostService } from './service/post.service';
+import { GroupComponent } from './group/group.component';
+import { GroupsComponent } from './groups/groups.component';
+import { GroupService } from './service/group.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { PostService } from './service/post.service';
     LoginComponent,
     RegisterComponent,
     EditUserComponent,
-    PostComponent
+    PostComponent,
+    GroupComponent,
+    GroupsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,8 @@ import { PostService } from './service/post.service';
     UserService,
     ConfigService,
     ReactionService,
-    PostService
+    PostService,
+    GroupService
   ],
   bootstrap: [AppComponent]
 })

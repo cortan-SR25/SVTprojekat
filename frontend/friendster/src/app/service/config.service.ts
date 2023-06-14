@@ -27,6 +27,16 @@ export class ConfigService {
 
   private _delete_reaction_url = this._reactions_url + '/delete';
 
+  private _all_groups_url = this._groups_url + '/all'
+
+  private _group_url = this._groups_url + '/'
+
+  private _create_group_url = this._groups_url + '/create'
+
+  private _edit_group_url = this._groups_url + '/edit'
+
+  private _delete_group_url = this._groups_url + '/delete'
+
   get all_posts_url(): string {
     return this._all_posts_url;
   }
@@ -51,7 +61,6 @@ export class ConfigService {
     return this._users_url;
   }
   
-  //TODO: 
   private _signup_url = this._user_url + '/register';
 
   get signup_url(): string {
@@ -76,6 +85,26 @@ export class ConfigService {
 
   get delete_post_url(): string{
     return this._delete_post_url
+  }
+
+  get all_groups_url(): string{
+    return this._all_groups_url
+  }
+
+  get group_url(): string{
+    return this._group_url
+  }
+
+  get create_group_url(): string{
+    return this._create_group_url
+  }
+
+  get edit_group_url(): string{
+    return this._edit_group_url
+  }
+
+  get delete_group_url(): string{
+    return this._delete_group_url
   }
 
 }

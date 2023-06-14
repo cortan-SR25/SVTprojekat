@@ -66,4 +66,8 @@ export class PostService {
           }));
       }
 
+      getPosts(){
+        return this.apiService.get(this.config.all_posts_url);
+      }
+
 }

@@ -1,0 +1,39 @@
+<div *ngIf="this.user != undefined">
+    <div style="margin: 10px;">
+        <button style="background-color: #008BD5; color: white;" (click)="createGroup()">Create a group</button>
+    </div>
+    <hr>
+    <div *ngFor="let group of groups">
+        <a routerLink="/{{this.group.id}}" style="size: 20px; color:black;">{{this.group.name}}</a>
+        <div>
+            <button *ngIf="this.group.groupAdmin.id == this.user.id" 
+            style="margin:8px;" (click)="editGroup(this.group)">edit</button>
+            <button *ngIf="this.user.role == 'ADMIN'" 
+            style="margin-top:8px;" (click)="deleteGroup(this.group)">delete</button>
+        </div>
+        <hr>
+    </div>
+</div>
+<div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="groupModalLabel" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupModalLabel">Create group</h5>
+                <button type="button" class="close" aria-label="Close" (click)="closeGroupModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="groupName" hint="name" [(ngModel)]="groupName" style="width: 100%; margin-bottom: 10px;"/>
+                <br>
+                <textarea id="groupDesc" hint="description" [(ngModel)]="groupDesc" style="width: 100%;"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeGroupModal()">Close</button>
+                <button type="button" id="postbtn" (click)="saveGroup()" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>

@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { PostComponent } from './post/post.component';
+import { GroupComponent } from './group/group.component';
+import { GroupsComponent } from './groups/groups.component';
 
 const routes: Routes = [
   {
@@ -21,7 +23,17 @@ const routes: Routes = [
   {
     path: 'posts',
     component: PostComponent,
-  }
+  },
+  {
+    path: 'groups',
+    component: GroupsComponent,
+    children: [
+      {
+        path: ':id',
+        component: GroupComponent
+      }
+    ]
+  },
 ];
 
 @NgModule({
