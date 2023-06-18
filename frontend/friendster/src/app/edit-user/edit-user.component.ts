@@ -16,6 +16,9 @@ export class EditUserComponent implements OnInit {
 
 public user
 form: FormGroup;
+public oldPassword
+public newPassword
+public repeatNewPassword
 
   constructor(
     private userService: UserService,
@@ -26,6 +29,10 @@ form: FormGroup;
   ) { }
 
   ngOnInit(){
+
+    this.oldPassword = ""
+    this.newPassword = ""
+    this.repeatNewPassword = ""
 
     if (!this.authService.tokenIsPresent()){
       this.router.navigate(['/login'])
@@ -40,11 +47,19 @@ form: FormGroup;
     });
   }
 
-  onSubmit(){
+  public change(){
+
+    if (this.newPassword != this.repeatNewPassword){
+      alert("The new password doesn't match!")
+      return
+    }
     
-      this.userService.edit(this.form.value).subscribe(data => {
+      this.userService.edit(this.user.username, this.oldPassword, this.newPassword).subscribe(data => {
         this.authService.logout()
         this.router.navigate(['/login'])
+      },
+      err => {
+        alert("This is not your current password!")
       })
     
   }

@@ -29,13 +29,11 @@ export class UserService {
     return this.apiService.get(this.config.users_url);
   }
 
-  edit(data) {
+  edit(username, oldPs, newPs) {
     
-    var user = {"username": "",
-                "password": data.password,
-                "firstName": "",
-                "lastName": "",
-                "email": ""              
+    var user = {"username": username,
+                "oldPassword": oldPs,
+                "newPassword": newPs            
   }
     const signupHeaders = new HttpHeaders({
       'Accept': 'application/json',

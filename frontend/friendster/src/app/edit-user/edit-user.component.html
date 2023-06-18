@@ -10,11 +10,17 @@
 <p>Last time you logged in: {{this.user.lastLogin}}</p>
 <br>
 </div>
-<form #loginForm="ngForm" (ngSubmit)="onSubmit()" [formGroup]="form">
+<div>
     <br>
     <p>Change your password</p>
     <br>
-    <input id=password formControlName="password" placeholder="type new password" required type="password">
-    <button [disabled]="!loginForm.form.valid" color="primary" mat-raised-button
-              type="submit">Change</button>
-</form>
+    <input id=oldPassword [(ngModel)]="oldPassword" placeholder="type current password" required type="password">
+    <br>
+    <br>
+    <input id=newPassword [(ngModel)]="newPassword" placeholder="type new password" required type="password">
+    <br>
+    <br>
+    <input id=newPasswordRepeat [(ngModel)]="repeatNewPassword"  placeholder="repeat new password" required type="password">
+    <br>
+    <button color="primary" mat-raised-button (click)="change()">Change</button>
+</div>

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import rs.ac.uns.ftn.friendster.model.dto.ChangePasswordDTO;
 import rs.ac.uns.ftn.friendster.model.dto.JwtAuthenticationRequest;
 import rs.ac.uns.ftn.friendster.model.dto.UserDTO;
 import rs.ac.uns.ftn.friendster.model.dto.UserTokenState;
@@ -93,9 +94,13 @@ public class UserController {
 	}
 	
 	@PostMapping("/edit")
-	public void editUser(Principal user, @RequestBody @Validated UserDTO userDTO) {
-		User foundUser = this.userService.findByUsername(user.getName());
-		foundUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+	public ResponseEntity<ChangePasswordDTO> editUser(@RequestBody @Validated ChangePasswordDTO cpDTO) {
+		User foundUser = this.userService.findByUsername(cpDTO.getUsername());
+		if (!passwordEncoder.matches(cpDTO.getOldPassword(), foundUser.getPassword())) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+		}
+		foundUser.setPassword(passwordEncoder.encode(cpDTO.getNewPassword()));
 		this.userService.edit(foundUser);
+		return new ResponseEntity<>(cpDTO, HttpStatus.CREATED);
 	}
 }
