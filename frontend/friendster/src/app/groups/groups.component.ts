@@ -32,12 +32,11 @@ export class GroupsComponent implements OnInit{
     }
 
     this.userService.getMyInfo().subscribe(
-      data => {this.user = data}
+      data => {this.user = data
+        this.getGroups()}
     );
 
     this.groupToEdit = new Group()
-
-    this.getGroups()
   }
 
   public getGroups(){

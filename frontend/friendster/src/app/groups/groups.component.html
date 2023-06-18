@@ -4,14 +4,18 @@
     </div>
     <hr>
     <div *ngFor="let group of groups">
-        <a routerLink="/{{this.group.id}}" style="size: 20px; color:black;">{{this.group.name}}</a>
+        <div *ngIf="(this.user.role == 'USER' && !this.group.isSuspended) || this.user.role == 'ADMIN'">
+        <a routerLink="/group/{{this.group.id}}" style="size: 20px; color:black;">{{this.group.name}}</a>
         <div>
             <button *ngIf="this.group.groupAdmin.id == this.user.id" 
             style="margin:8px;" (click)="editGroup(this.group)">edit</button>
-            <button *ngIf="this.user.role == 'ADMIN'" 
+            <button *ngIf="!this.group.isSuspended && this.user.role == 'ADMIN'"
             style="margin-top:8px;" (click)="deleteGroup(this.group)">delete</button>
+            <button *ngIf="this.group.isSuspended  && this.user.role == 'ADMIN'"
+            style="margin-top:8px;" (click)="deleteGroup(this.group)">reactivate</button>
         </div>
         <hr>
+    </div>
     </div>
 </div>
 <div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="groupModalLabel" aria-modal="true"

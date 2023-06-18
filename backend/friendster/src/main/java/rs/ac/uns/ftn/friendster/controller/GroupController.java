@@ -29,8 +29,9 @@ public class GroupController {
 	TokenUtils tokenUtils;
 	
 	@GetMapping("/all")
-	public List<Group> loadAll() {
-		return this.groupService.findAll(); //where isSuspended == false zato sto su ostale grupe logicki izbrisane
+	public List<Group> loadAllActive() {
+		
+		return this.groupService.findAll();
 	}
 	
 	@GetMapping("/{id}")
@@ -63,7 +64,7 @@ public class GroupController {
 	@PostMapping("/delete")
 	public ResponseEntity<GroupDTO> deleteGroup(@Validated @RequestBody GroupDTO groupDTO){
 		
-		groupService.delete(groupDTO.getId()); //Zameni da bude samo logicko brisanje (isSuspended = true)
+		groupService.delete(groupDTO.getId());
 		
 		return new ResponseEntity<>(groupDTO, HttpStatus.ACCEPTED); 
 	}

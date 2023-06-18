@@ -27,12 +27,10 @@ const routes: Routes = [
   {
     path: 'groups',
     component: GroupsComponent,
-    children: [
-      {
-        path: ':id',
-        component: GroupComponent
-      }
-    ]
+  },
+  {
+    path: 'group/:id',
+    component: GroupComponent,
   },
 ];
 

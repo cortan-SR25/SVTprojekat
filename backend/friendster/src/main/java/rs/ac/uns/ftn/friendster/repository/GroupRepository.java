@@ -13,7 +13,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 	
 	@Modifying
 	@Transactional
-	@Query(value="DELETE FROM postgroups g WHERE g.id = :id", nativeQuery = true)
+	@Query(value="UPDATE postgroups SET is_suspended = 1 WHERE id = :id", nativeQuery = true)
 	void deleteById(Long id);
-
 }
